@@ -1,0 +1,48 @@
+:host {
+  position: relative;
+
+  .loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+
+  .table-container {
+    padding: 1rem;
+
+    .filter-container {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .mat-mdc-row {
+      cursor: pointer;
+
+      &:hover {
+        opacity: 0.7;
+      }
+    }
+  }
+
+  .anomaly-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 300px;
+    width: 100%;
+  }
+
+  .error {
+    color: red;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+  }
+}

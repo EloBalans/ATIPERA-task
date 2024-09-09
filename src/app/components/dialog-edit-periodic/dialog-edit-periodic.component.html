@@ -1,0 +1,40 @@
+<h2 mat-dialog-title>Edit periodic element</h2>
+<mat-dialog-content>
+  <form [formGroup]="form">
+    <app-input
+      [label]="'Position'"
+      [control]="form.controls.position"
+      [type]="'number'"
+    />
+
+    <app-input [label]="'Name'" [control]="form.controls.name" />
+
+    <app-input
+      [label]="'Weight'"
+      [control]="form.controls.weight"
+      [type]="'number'"
+    />
+
+    <app-input [label]="'Symbol'" [control]="form.controls.symbol" />
+  </form>
+
+  @if (error()) {
+    <mat-error>
+      {{ error() }}
+    </mat-error>
+  }
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button
+    mat-raised-button
+    type="submit"
+    [disabled]="form.invalid || loading()"
+    (click)="submit()"
+  >
+    @if (loading()) {
+      <mat-spinner [diameter]="20"></mat-spinner>
+    } @else {
+      <span>Save</span>
+    }
+  </button>
+</mat-dialog-actions>
