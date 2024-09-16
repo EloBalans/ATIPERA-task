@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   DestroyRef,
   Inject,
@@ -15,7 +16,6 @@ import {
   MatDialogTitle,
 } from '@angular/material/dialog';
 import {
-  FormControl,
   NonNullableFormBuilder,
   ReactiveFormsModule,
   Validators,
@@ -29,6 +29,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { finalize } from 'rxjs';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { InputComponent } from '../input/input.component';
+import { IPeriodicElementForm } from '../../models/update-periodic-element.model';
 
 @Component({
   selector: 'app-dialog-edit-periodic',
@@ -47,12 +48,14 @@ import { InputComponent } from '../input/input.component';
   ],
   templateUrl: './dialog-edit-periodic.component.html',
   styleUrl: './dialog-edit-periodic.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DialogEditPeriodicComponent implements OnInit {
   formBuilder = inject(NonNullableFormBuilder);
   dialogRef = inject(MatDialogRef<DialogEditPeriodicComponent>);
   periodicService = inject(PeriodicService);
   destroyRef = inject(DestroyRef);
+
   loading = signal<boolean>(false);
   error = signal<string | null>(null);
 
@@ -87,7 +90,7 @@ export class DialogEditPeriodicComponent implements OnInit {
     if (this.form.valid) {
       const formValue = this.form.value;
 
-      const sanitizedValue: IPeriodicElement = {
+      const updated: IPeriodicElement = {
         position: formValue.position ?? this.data.position,
         name: formValue.name ?? this.data.name,
         weight: formValue.weight ?? this.data.weight,
@@ -96,7 +99,7 @@ export class DialogEditPeriodicComponent implements OnInit {
 
       this.loading.set(true);
       this.periodicService
-        .edit(sanitizedValue)
+        .edit(updated)
         .pipe(
           takeUntilDestroyed(this.destroyRef),
           finalize(() => this.loading.set(false)),
@@ -114,11 +117,4 @@ export class DialogEditPeriodicComponent implements OnInit {
       this.error.set('Form is invalid!');
     }
   }
-}
-
-export interface IPeriodicElementForm {
-  position: FormControl<number | null>;
-  name: FormControl<string | null>;
-  weight: FormControl<number | null>;
-  symbol: FormControl<string | null>;
 }

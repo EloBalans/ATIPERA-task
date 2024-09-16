@@ -1,15 +1,1 @@
-<mat-card appearance="outlined">
-  <mat-card-header>
-    <mat-card-title>Periodic element table</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <app-periodic-table
-      [periodicElements]="periodicElements()"
-      [loading]="loading()"
-      [error]="error()"
-      [displayedColumns]="displayedColumns()"
-      (clickRowEvent)="editRow($event)"
-      (refreshEvent)="loadTableData()"
-    />
-  </mat-card-content>
-</mat-card>
+<app-card-periodic-elements />
